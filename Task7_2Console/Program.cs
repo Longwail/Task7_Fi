@@ -1,29 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Task7_2Console
+namespace Test
 {
     internal class Program
     {
         static void Main(string[] args)
         {
+            string str = string.Empty;
+
+            str = Console.ReadLine();
+
+            string[] words = str.Split(' ');
+
+            List<string> result = new List<string>();
+
             try
             {
-                Console.Write("Введите строку: ");
-                string data = Console.ReadLine();
-                if (data.Length == 0) throw new Exception("Пустая строка. Введите что нибудь!");
-                var result = data.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                    .GroupBy(x => x)
-                    .Where(x => x.Count() == 1)
-                    .Select(x => x.Key);
-                foreach (var item in result) Console.Write(item + " ");
+                if (string.IsNullOrWhiteSpace(str)) throw new Exception("Пустая строка!!");
 
-                Console.ReadLine();
+                for (int i = 0; i < words.Length; i++)
+                {
+                    string word = words[i];
+                    int count = 0;
+
+                    foreach (string w in words)
+                        if (w == word) count++;
+
+                    if (count == 1) result.Add(word);
+                }
+
+                if (result.Count == 0) throw new Exception("Нет слов!");
+
+                foreach (string item in result)
+                    Console.WriteLine(item);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
